@@ -18,11 +18,11 @@ import {
 } from "@/components/ui/select"
 import { Textarea } from "@/components/ui/textarea"
 import { transactionSchema, type TransactionFormValues } from "@/lib/validation/finance-schemas"
-import type { Account, Category, Transaction } from "@/types/finance"
+import type { Category, Transaction, FinancialInstitution } from "@/types/finance"
 
 type TransactionFormProps = {
   categories: Category[]
-  accounts: Account[]
+  institutions: FinancialInstitution[]
   initial?: Transaction | null
   onSubmit: (values: TransactionFormValues) => Promise<void> | void
   onCancelEdit?: () => void
@@ -43,7 +43,7 @@ const baseValues: TransactionFormValues = {
 
 export function TransactionForm({
   categories,
-  accounts,
+  institutions,
   initial,
   onSubmit,
   onCancelEdit,
@@ -181,7 +181,7 @@ export function TransactionForm({
               <Field>
                 <FieldLabel>Conta</FieldLabel>
                 <Select
-                  items={[{ label: "Sem conta", value: "none" }, ...accounts.map((account) => ({ label: account.name, value: account.id }))]}
+                  items={[{ label: "Sem conta", value: "none" }, ...institutions.map((inst) => ({ label: inst.display_name || inst.name, value: inst.id }))]}
                   value={field.value ?? "none"}
                   onValueChange={(value) => field.onChange(value === "none" ? null : value)}
                 >
@@ -191,9 +191,9 @@ export function TransactionForm({
                   <SelectContent>
                     <SelectGroup>
                       <SelectItem value="none">Sem conta</SelectItem>
-                      {accounts.map((account) => (
-                        <SelectItem key={account.id} value={account.id}>
-                          {account.name}
+                      {institutions.map((inst) => (
+                        <SelectItem key={inst.id} value={inst.id}>
+                          {inst.display_name || inst.name}
                         </SelectItem>
                       ))}
                     </SelectGroup>

@@ -39,7 +39,7 @@ export default function TransactionsPage() {
       />
       <TransactionForm
         categories={data.categories}
-        accounts={data.accounts}
+        institutions={data.institutions}
         initial={editing}
         onCancelEdit={() => setEditing(null)}
         onSubmit={async (values) => {
